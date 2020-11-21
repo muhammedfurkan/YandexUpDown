@@ -19,8 +19,6 @@ async def download_file(url, file_name, message, start_time, bot):
 
 
 async def download_coroutine(session, url, file_name, event, start, bot):
-    CHUNK_SIZE = 1024*6  # 2341
-    downloaded = 0
     display_message = ""
     async with session.get(url) as response:
         total_length = int(response.headers["Content-Length"])
@@ -38,7 +36,9 @@ async def download_coroutine(session, url, file_name, event, start, bot):
             ),
             parse_mode="md",
         )
+        CHUNK_SIZE = 1024*6  # 2341
         with open(file_name, "wb") as f_handle:
+            downloaded = 0
             while True:
                 chunk = await response.content.read(CHUNK_SIZE)
                 if not chunk:
@@ -55,13 +55,9 @@ async def download_coroutine(session, url, file_name, event, start, bot):
                         round((total_length - downloaded) / speed) * 1000)
                     estimated_total_time = elapsed_time + time_to_completion
                     try:
-                        if total_length < downloaded:
-                            total_length = downloaded
+                        total_length = max(total_length, downloaded)
                         current_message = await progress(downloaded, total_length, event, start, f"**Downloading({file_name}) from URL**")
-                        if (
-                            current_message != display_message
-                            and current_message != "empty"
-                        ):
+                        if current_message not in [display_message, "empty"]:
                             await event.edit(current_message, parse_mode="html")
 
                             display_message = current_message
