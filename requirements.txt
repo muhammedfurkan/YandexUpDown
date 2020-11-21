@@ -1,0 +1,3 @@
+telethon
+yadisk-async
+python-dotenv
