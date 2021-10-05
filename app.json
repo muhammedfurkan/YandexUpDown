@@ -1,0 +1,50 @@
+{
+  "name": "YandexUpDown",
+  "description": "Basic Yandex Disk Uploader Telegram Bot",
+  "logo": "https://telegra.ph/file/6ce444f5ba54d79fb8622.jpg",
+  "keywords": [
+    "telegram",
+    "bot",
+    "yandex",
+    "yadisk",
+    "yandex disk"
+  ],
+  "repository": "https://github.com/muhammedfurkan/YandexUpDown/",
+  "website": "https://telegram.dog/By_Azade",
+  "success_url": "https://t.me/By_Azade",
+  "env": {
+    "ENV": {
+      "description": "Setting this to ANYTHING will enable environment variables.",
+      "value": "ANYTHING"
+    },
+    "API_ID": {
+      "description": "Get this value from my.telegram.org! Please do not steal",
+      "value": "6"
+    },
+    "API_HASH": {
+      "description": "Get this value from my.telegram.org! Please do not steal",
+      "value": "eb06d4abfb49dc3eeb1aeb98ae0f581e"
+    },
+    "BOT_TOKEN": {
+      "description": "Get your bot token from @botfather",
+      "required": true
+    },
+    "ADMIN_ID": {
+      "description": "Type your TELEGRAM ID",
+      "required": true
+    },
+    "YANDEX_APP_ID": {
+      "description": "https://github.com/muhammedfurkan/YandexUpDown#settingsenv",
+      "required": true
+    },
+    "YANDEX_APP_SECRET": {
+      "description": "https://github.com/muhammedfurkan/YandexUpDown#settingsenv",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
