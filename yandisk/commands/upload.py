@@ -81,7 +81,7 @@ async def upload(event):
     await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
-        await Yandex.upload(filename, "./upload/")
+        await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
         await mesaj.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
                          buttons=[Button.inline('✅ Yes', f'rm-{filename}'), Button.inline('❌ No', f'ndlt-{filename}')])
