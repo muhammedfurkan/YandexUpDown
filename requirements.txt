@@ -1,3 +1,5 @@
 telethon
 yadisk-async
 python-dotenv
+dnspython
+pymongo
