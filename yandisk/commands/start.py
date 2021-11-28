@@ -1,5 +1,6 @@
 from config import MONGO_DB
 from pymongo import MongoClient
+from telethon.tl.custom import Button
 from telethon.tl.functions.users import GetFullUserRequest
 from yandisk.events import message
 
@@ -143,5 +144,10 @@ async def start(event):
         "**ALL COMMANDS:**\n\n" + \
         "`/info` get information disk usage\n"
     await log_yolla(event)
+    markup = message.build_reply_markup([Button.url(
+        text='📍 Our Channels & Groups', url="t.me/KanalLinkleri"),
+        Button.url(
+        text='👤 Developer', url="t.me/By_Azade")
+    ])
 
-    await event.reply(msg)
+    await event.reply(msg, buttons=markup)
