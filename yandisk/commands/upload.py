@@ -123,6 +123,7 @@ async def upload_url(event):
         file = await Yandex.get_meta(filename)
         await event.reply(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
         await x.delete()
+
     except exceptions.PathExistsError:
         await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
