@@ -82,6 +82,10 @@ async def upload(event):
 
     try:
         await Yandex.upload(filename, filename)
+        await Yandex.publish(filename)
+        file = await Yandex.get_meta(filename)
+        await event.edit(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
+        os.remove(filename)
     except exceptions.PathExistsError:
         await mesaj.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
                          buttons=[Button.inline('✅ Yes', f'rm-{filename}'), Button.inline('❌ No', f'ndlt-{filename}')])
@@ -97,9 +101,6 @@ async def upload(event):
         #     Button.inline('❌ No', 'npb'),
         # ],
     )
-    file = await Yandex.get_meta(filename)
-    await event.edit(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
-    os.remove(filename)
 
 
 @message(pattern=r"/upload ?([\w.]*) ?(.*)")
