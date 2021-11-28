@@ -84,7 +84,7 @@ async def upload(event):
         await Yandex.upload(filename, filename)
         await Yandex.publish(filename)
         file = await Yandex.get_meta(filename)
-        await event.edit(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
+        await event.reply(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
 
         os.remove(filename)
     except exceptions.PathExistsError:
