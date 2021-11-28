@@ -74,6 +74,7 @@ async def upload(event):
     mesaj = await event.reply("`Your file downloading! Please Wait...`")
     baslangic = time.time()
     filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(progress(d, t, mesaj, baslangic, "Trying to Download Your File")))
+    filename = filename.document.attributes[0].file_name
     await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
