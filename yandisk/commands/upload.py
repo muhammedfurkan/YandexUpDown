@@ -91,12 +91,15 @@ async def upload(event):
         print(str(e))
 
     await mesaj.edit(
-        "**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
-        buttons=[
-            Button.inline('✅ Yes', f'ph-{filename}'),
-            Button.inline('❌ No', 'npb'),
-        ],
+        "**✅ File has been successfully uploaded to Yandex.**",
+        # buttons=[
+        #     Button.inline('✅ Yes', f'ph-{filename}'),
+        #     Button.inline('❌ No', 'npb'),
+        # ],
     )
+    file = await Yandex.get_meta(filename)
+    await event.edit(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
+    os.remove(filename)
 
 
 @message(pattern=r"/upload ?([\w.]*) ?(.*)")
