@@ -4,11 +4,11 @@ from yandisk import admin, client
 
 
 def message(**args):
-    pattern = args.get('pattern', None)
-    from_users = args.get('from_users', None)
+    pattern = args.get("pattern", None)
+    from_users = args.get("from_users", None)
 
-    if pattern is not None and not pattern.startswith('(?i)'):
-        args['pattern'] = '(?i)' + pattern
+    if pattern is not None and not pattern.startswith("(?i)"):
+        args["pattern"] = "(?i)" + pattern
     elif from_users is not None:
         args["from_users"] = [admin]
 

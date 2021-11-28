@@ -3,8 +3,14 @@ import time
 from os import environ
 from os.path import exists
 
-from config import (ADMIN_ID, API_HASH, API_ID, BOT_TOKEN, YANDEX_APP_ID,
-                    YANDEX_APP_SECRET)
+from config import (
+    ADMIN_ID,
+    API_HASH,
+    API_ID,
+    BOT_TOKEN,
+    YANDEX_APP_ID,
+    YANDEX_APP_SECRET,
+)
 from dotenv import load_dotenv
 from telethon import TelegramClient
 from yadisk_async import YaDisk
@@ -43,19 +49,14 @@ async def progress(current, total, event, start, type_of_ps):
         time_to_completion = round((total - current) / speed) * 1000
         estimated_total_time = elapsed_time + time_to_completion
         progress_str = "[{0}{1}]\nPercent: {2}%\n".format(
-            ''.join("█" for _ in range(math.floor(percentage / 5))),
-            ''.join("░" for _ in range(20 - math.floor(percentage / 5))),
-            round(percentage, 2))
-        tmp = progress_str + \
-            "{0} of {1}\nETA: {2}".format(
-                humanbytes(current),
-                humanbytes(total),
-                time_formatter(estimated_total_time)
-            )
-        await event.edit("{}\n {}".format(
-            type_of_ps,
-            tmp
-        ))
+            "".join("█" for _ in range(math.floor(percentage / 5))),
+            "".join("░" for _ in range(20 - math.floor(percentage / 5))),
+            round(percentage, 2),
+        )
+        tmp = progress_str + "{0} of {1}\nETA: {2}".format(
+            humanbytes(current), humanbytes(total), time_formatter(estimated_total_time)
+        )
+        await event.edit("{}\n {}".format(type_of_ps, tmp))
 
 
 def time_formatter(milliseconds: int) -> str:
@@ -65,11 +66,13 @@ def time_formatter(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + "d, ") if days else "") + \
-        ((str(hours) + "h, ") if hours else "") + \
-        ((str(minutes) + "m, ") if minutes else "") + \
-        ((str(seconds) + "s, ") if seconds else "") + \
-        ((str(milliseconds) + "ms, ") if milliseconds else "")
+    tmp = (
+        ((str(days) + "d, ") if days else "")
+        + ((str(hours) + "h, ") if hours else "")
+        + ((str(minutes) + "m, ") if minutes else "")
+        + ((str(seconds) + "s, ") if seconds else "")
+        + ((str(milliseconds) + "ms, ") if milliseconds else "")
+    )
     return tmp[:-2]
 
 
@@ -82,13 +85,7 @@ def humanbytes(size):
     # 2 ** 10 = 1024
     power = 2 ** 10
     raised_to_pow = 0
-    dict_power_n = {
-        0: "",
-        1: "Ki",
-        2: "Mi",
-        3: "Gi",
-        4: "Ti"
-    }
+    dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
     while size > power:
         size /= power
         raised_to_pow += 1

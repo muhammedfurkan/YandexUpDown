@@ -35,7 +35,7 @@ async def download_coroutine(session, url, file_name, event, start, bot):
             ),
             parse_mode="md",
         )
-        CHUNK_SIZE = 1024 * 6  # 2341
+        CHUNK_SIZE = 1024*6  # 2341
         with open(file_name, "wb") as f_handle:
             downloaded = 0
             while True:
@@ -51,18 +51,11 @@ async def download_coroutine(session, url, file_name, event, start, bot):
                     speed = downloaded / diff
                     elapsed_time = round(diff) * 1000
                     time_to_completion = (
-                        round((total_length - downloaded) / speed) * 1000
-                    )
+                        round((total_length - downloaded) / speed) * 1000)
                     estimated_total_time = elapsed_time + time_to_completion
                     try:
                         total_length = max(total_length, downloaded)
-                        current_message = await progress(
-                            downloaded,
-                            total_length,
-                            event,
-                            start,
-                            f"**Downloading({file_name}) from URL**",
-                        )
+                        current_message = await progress(downloaded, total_length, event, start, f"**Downloading({file_name}) from URL**")
                         if current_message not in [display_message, "empty"]:
                             await event.edit(current_message, parse_mode="html")
 
@@ -80,35 +73,24 @@ async def upload(event):
 
     mesaj = await event.reply("`Your file downloading! Please Wait...`")
     baslangic = time.time()
-    filename = await event.download_media(
-        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-            progress(d, t, mesaj, baslangic, "Trying to Download Your File")
-        )
-    )
+    filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(progress(d, t, mesaj, baslangic, "Trying to Download Your File")))
     await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
         await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
-        await mesaj.edit(
-            "**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
-            buttons=[
-                Button.inline("✅ Yes", f"remove-{filename}"),
-                Button.inline("❌ No", f"nodelete-{filename}"),
-            ],
-        )
+        await mesaj.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
+                         buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
-        await mesaj.edit(
-            "You are not logged to Yandex. Please use /login then try upload file."
-        )
+        await mesaj.edit("You are not logged to Yandex. Please use /login then try upload file.")
     except Exception as e:
         print(str(e))
 
     await mesaj.edit(
         "**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
         buttons=[
-            Button.inline("✅ Yes", f"publish-{filename}"),
-            Button.inline("❌ No", f"nopublish"),
+            Button.inline('✅ Yes', f'publish-{filename}'),
+            Button.inline('❌ No', 'nopublish'),
         ],
     )
 
@@ -119,9 +101,7 @@ async def upload_url(event):
     url = event.pattern_match.group(2)
 
     if url is None or filename is None:
-        return await event.edit(
-            "**You must provide url & filename!**\nExample: `/upload test.gif https://www.gmail.com/mail/help/images/logonew.gif`"
-        )
+        return await event.edit("**You must provide url & filename!**\nExample: `/upload test.gif https://www.gmail.com/mail/help/images/logonew.gif`")
 
     event = await event.reply("`Your URL downloading! Please Wait...`")
     await download_file(url, filename, event, time.time(), event.client)
@@ -130,24 +110,16 @@ async def upload_url(event):
     try:
         await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
-        await event.edit(
-            "**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
-            buttons=[
-                Button.inline("✅ Yes", f"remove-{filename}"),
-                Button.inline("❌ No", f"nodelete-{filename}"),
-            ],
-        )
+        await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
-        await event.edit(
-            "You are not logged to Yandex. Please use /login then try upload file."
-        )
+        await event.edit("You are not logged to Yandex. Please use /login then try upload file.")
     except Exception as e:
         print(str(e))
 
     await event.edit(
         "**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
         buttons=[
-            Button.inline("✅ Yes", f"publish-{filename}"),
-            Button.inline("❌ No", f"nopublish"),
+            Button.inline('✅ Yes', f'publish-{filename}'),
+            Button.inline('❌ No', 'nopublish'),
         ],
     )
