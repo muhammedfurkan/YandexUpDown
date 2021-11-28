@@ -51,9 +51,9 @@ class yandex_bot:
         return list(self.ara({'uye_id': {'$exists': True}}).keys())
 
 
-@message(pattern="/kul_say"))
+@message(pattern="/kul_say")
 async def say(event):
-    j=await event.client(
+    j = await event.client(
         GetFullUserRequest(
             event.chat_id
         )
@@ -83,7 +83,7 @@ async def log_yolla(event):
     db.ekle(uye_id, uye_nick, uye_adi)
 
 
-@message(pattern="/duyuru ?(.*)"))
+@message(pattern="/duyuru ?(.*)")
 async def duyuru(event):
     # < Başlangıç
     await log_yolla(event)
@@ -142,5 +142,6 @@ async def start(event):
         "**You can use this bot to get private link of files.**\n" + \
         "**ALL COMMANDS:**\n\n" + \
         "`/info` get information disk usage\n"
+    await log_yolla(event)
 
     await event.reply(msg)
