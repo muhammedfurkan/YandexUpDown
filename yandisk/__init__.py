@@ -3,6 +3,8 @@ import time
 from os import environ
 from os.path import exists
 
+from config import (ADMIN_ID, API_HASH, API_ID, BOT_TOKEN, YANDEX_APP_ID,
+                    YANDEX_APP_SECRET)
 from dotenv import load_dotenv
 from telethon import TelegramClient
 from yadisk_async import YaDisk
@@ -10,13 +12,12 @@ from yadisk_async import YaDisk
 load_dotenv("config.env")
 
 # Telegram
-client = TelegramClient("yandisk", environ.get(
-    "API_ID"), environ.get("API_HASH"))
-admin = environ.get("ADMIN_ID")
+client = TelegramClient("yandisk", API_ID, API_HASH)
+admin = ADMIN_ID
 
 # Yandex
-yapi_id = environ.get("YANDEX_APP_ID")
-yapi_secret = environ.get("YANDEX_APP_SECRET")
+yapi_id = YANDEX_APP_ID
+yapi_secret = YANDEX_APP_SECRET
 token = None
 
 if token is None:

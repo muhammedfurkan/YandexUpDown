@@ -3,14 +3,13 @@ from re import compile
 
 from telethon.events import CallbackQuery
 from telethon.tl.custom import Button
-
 from yandisk import Yandex, client
 
 
 @client.on(CallbackQuery())
 async def callquery(event):
     data = event.data.decode("utf-8")
-    
+
     if data.startswith("nodelete"):
         filename = data.split("nodelete-")[1]
         await Yandex.publish(filename)
@@ -22,7 +21,7 @@ async def callquery(event):
     elif data.startswith("yes"):
         filename = data.split("yes-")[1]
         await Yandex.remove(filename, permanently=True)
-        return await event.edit(f"✅ **Deleted successfully!**")
+        return await event.edit('✅ **Deleted successfully!**')
     elif data == "no":
         return await event.edit("__OK! File will not be deleted.__")
     elif data.startswith("publish"):
@@ -30,7 +29,7 @@ async def callquery(event):
         await Yandex.publish(filename)
         file = await Yandex.get_meta(filename)
         await event.edit(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url))
-        
+
         return remove(file)
     elif data == "nopublish":
         return await event.edit("__OK! Only you will access the file.__")

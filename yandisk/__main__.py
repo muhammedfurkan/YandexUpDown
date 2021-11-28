@@ -4,6 +4,8 @@ import importlib
 from logging import WARN, basicConfig, getLogger
 from os import environ
 
+from config import BOT_TOKEN
+
 from . import client
 from .commands import ALL_COMMANDS
 
@@ -14,7 +16,7 @@ loop = asyncio.get_event_loop()
 
 
 async def main():
-    await client.start(bot_token=environ.get("BOT_TOKEN"))
+    await client.start(bot_token=BOT_TOKEN)
     for command in ALL_COMMANDS:
         importlib.import_module("yandisk.commands." + command)
 
