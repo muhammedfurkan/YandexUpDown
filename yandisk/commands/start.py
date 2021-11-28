@@ -20,7 +20,8 @@ class yandex_bot:
         elif say > 1:
             cursor = self.collection.find(sorgu, {"_id": 0})
             return {
-                bak["uye_id"]: {"uye_nick": bak["uye_nick"], "uye_adi": bak["uye_adi"]}
+                bak["uye_id"]: {"uye_nick": bak["uye_nick"],
+                                "uye_adi": bak["uye_adi"]}
                 for bak in cursor
             }
         else:
@@ -42,7 +43,8 @@ class yandex_bot:
         if not self.ara({"uye_id": {"$in": [str(uye_id), int(uye_id)]}}):
             return None
 
-        self.collection.delete_one({"uye_id": {"$in": [str(uye_id), int(uye_id)]}})
+        self.collection.delete_one(
+            {"uye_id": {"$in": [str(uye_id), int(uye_id)]}})
         return True
 
     @property
@@ -144,9 +146,10 @@ async def start(event):
         + "`/info` get information disk usage\n"
     )
     await log_yolla(event)
-    markup = message.build_reply_markup(
+    markup = event.client.build_reply_markup(
         [
-            Button.url(text="📍 Our Channels & Groups", url="t.me/KanalLinkleri"),
+            Button.url(text="📍 Our Channels & Groups",
+                       url="t.me/KanalLinkleri"),
             Button.url(text="👤 Developer", url="t.me/By_Azade"),
         ]
     )
