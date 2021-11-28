@@ -78,13 +78,14 @@ async def upload(event):
     # if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
     #     os.makedirs(TMP_DOWNLOAD_DIRECTORY)
     filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(progress(d, t, mesaj, baslangic, "Trying to Download Your File")))
-    await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
+    x = await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
         await Yandex.upload(filename, filename)
         await Yandex.publish(filename)
         file = await Yandex.get_meta(filename)
         await event.reply(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
+        await x.delete()
 
         os.remove(filename)
     except exceptions.PathExistsError:
