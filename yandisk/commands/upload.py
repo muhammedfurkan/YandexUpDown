@@ -115,10 +115,14 @@ async def upload_url(event):
 
     event = await event.reply("`Your URL downloading! Please Wait...`")
     await download_file(url, filename, event, time.time(), event.client)
-    await event.edit("`Uploading to YaDisk! Please Wait...`")
+    x = await event.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
         await Yandex.upload(filename, filename)
+        await Yandex.publish(filename)
+        file = await Yandex.get_meta(filename)
+        await event.reply(f"__✅ I made the file public.__ **Here is public link: ** [Link]({file.public_url})", buttons=Button.url('🔗 Public Link', file.public_url), link_preview=False)
+        await x.delete()
     except exceptions.PathExistsError:
         await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
@@ -126,4 +130,4 @@ async def upload_url(event):
     except Exception as e:
         print(str(e))
 
-    await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
+    # await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
