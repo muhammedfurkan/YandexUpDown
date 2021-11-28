@@ -9,6 +9,8 @@ from yadisk_async import exceptions
 from yandisk import Yandex, client, humanbytes, progress, token
 from yandisk.events import message
 
+TMP_DOWNLOAD_DIRECTORY = "./DOWNLOADS/"
+
 
 async def download_file(url, file_name, message, start_time, bot):
     async with aiohttp.ClientSession() as session:
@@ -73,15 +75,16 @@ async def upload(event):
 
     mesaj = await event.reply("`Your file downloading! Please Wait...`")
     baslangic = time.time()
+    # if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
+    #     os.makedirs(TMP_DOWNLOAD_DIRECTORY)
     filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(progress(d, t, mesaj, baslangic, "Trying to Download Your File")))
-    print(filename)
     await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
         await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
         await mesaj.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__",
-                         buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
+                         buttons=[Button.inline('✅ Yes', f'rm-{filename}'), Button.inline('❌ No', f'ndlt-{filename}')])
     except exceptions.UnauthorizedError:
         await mesaj.edit("You are not logged to Yandex. Please use /login then try upload file.")
     except Exception as e:
@@ -90,8 +93,8 @@ async def upload(event):
     await mesaj.edit(
         "**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
         buttons=[
-            Button.inline('✅ Yes', f'publish-{filename}'),
-            Button.inline('❌ No', 'nopublish'),
+            Button.inline('✅ Yes', f'ph-{filename}'),
+            Button.inline('❌ No', 'npb'),
         ],
     )
 
@@ -117,10 +120,4 @@ async def upload_url(event):
     except Exception as e:
         print(str(e))
 
-    await event.edit(
-        "**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
-        buttons=[
-            Button.inline('✅ Yes', f'publish-{filename}'),
-            Button.inline('❌ No', 'nopublish'),
-        ],
-    )
+    await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])

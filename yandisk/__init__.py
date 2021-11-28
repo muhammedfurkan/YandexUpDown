@@ -3,19 +3,10 @@ import time
 from os import environ
 from os.path import exists
 
-from config import (
-    ADMIN_ID,
-    API_HASH,
-    API_ID,
-    BOT_TOKEN,
-    YANDEX_APP_ID,
-    YANDEX_APP_SECRET,
-)
-from dotenv import load_dotenv
+from config import (ADMIN_ID, API_HASH, API_ID, BOT_TOKEN, YANDEX_APP_ID,
+                    YANDEX_APP_SECRET)
 from telethon import TelegramClient
 from yadisk_async import YaDisk
-
-load_dotenv("config.env")
 
 # Telegram
 client = TelegramClient("yandisk", API_ID, API_HASH)
@@ -54,7 +45,8 @@ async def progress(current, total, event, start, type_of_ps):
             round(percentage, 2),
         )
         tmp = progress_str + "{0} of {1}\nETA: {2}".format(
-            humanbytes(current), humanbytes(total), time_formatter(estimated_total_time)
+            humanbytes(current), humanbytes(
+                total), time_formatter(estimated_total_time)
         )
         await event.edit("{}\n {}".format(type_of_ps, tmp))
 
