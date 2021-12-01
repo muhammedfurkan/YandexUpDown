@@ -4,7 +4,7 @@ from os import environ
 from os.path import exists
 
 from config import (ADMIN_ID, API_HASH, API_ID, BOT_TOKEN, YANDEX_APP_ID,
-                    YANDEX_APP_SECRET)
+                    YANDEX_APP_SECRET, YANDEX_TOKEN)
 from telethon import TelegramClient
 from yadisk_async import YaDisk
 
@@ -15,7 +15,7 @@ admin = ADMIN_ID
 # Yandex
 yapi_id = YANDEX_APP_ID
 yapi_secret = YANDEX_APP_SECRET
-token = None
+token = YANDEX_TOKEN
 
 if token is None:
     if exists("token.txt"):
