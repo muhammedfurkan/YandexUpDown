@@ -1,4 +1,5 @@
 telethon
+telethon-tgcrypto
 yadisk-async
 python-dotenv
 dnspython
